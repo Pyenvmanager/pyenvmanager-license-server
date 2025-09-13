@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import { rateLimit } from "../../lib/rateLimit.js";
 
 export default async function handler(req, res) {
