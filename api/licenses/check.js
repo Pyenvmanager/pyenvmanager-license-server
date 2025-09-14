@@ -1,5 +1,14 @@
 import { rateLimit } from "../../lib/rateLimit.js";
 
+// Map Dodo product IDs to plan names (same as activate.js)
+function mapProductToPlan(dodoProduct) {
+  const productMapping = {
+    'pdt_Ni7SwibBUuuQnadJhzO3o': 'pro',
+    'pdt_nQi6U5moTaqhmWalAayrl': 'pro',
+  };
+  return productMapping[dodoProduct?.id] || 'pro';
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -41,7 +50,7 @@ export default async function handler(req, res) {
 
     return res.status(r.status).json({
       valid: data.valid,
-      plan: data.plan || null,
+      plan: data.product ? mapProductToPlan(data.product) : 'pro',
       expiresAt: data.expiresAt || null,
       raw: data, // helpful for debugging
     });
